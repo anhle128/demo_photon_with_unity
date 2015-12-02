@@ -135,7 +135,6 @@ App_Data/*.ldf
 
 #LightSwitch generated files
 GeneratedArtifacts/
-_Pvt_Extensions/
 ModelManifest.xml
 
 # =========================

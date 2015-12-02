@@ -4,24 +4,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace StartCollectorServer
+public class StarCollectorServer : ApplicationBase
 {
-    public class StarCollectorServer : ApplicationBase
+
+    protected override PeerBase CreatePeer(InitRequest initRequest)
     {
+        return new StarCollectorPeer(initRequest.Protocol, initRequest.PhotonPeer);
+    }
 
-        protected override PeerBase CreatePeer(InitRequest initRequest)
-        {
-            return new PhotonAckPeer(initRequest.Protocol, initRequest.PhotonPeer);
-        }
+    protected override void Setup()
+    {
+        StarCollectorGame.Instance = new StarCollectorGame();
+        StarCollectorGame.Instance.Startup();
+    }
 
-        protected override void Setup()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void TearDown()
-        {
-            throw new NotImplementedException();
-        }
+    protected override void TearDown()
+    {
+        StarCollectorGame.Instance.ShutDown();
     }
 }
