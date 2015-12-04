@@ -23,11 +23,7 @@ public class StarCollectorPeer : PeerBase
     public StarCollectorPeer(IRpcProtocol protocol, IPhotonPeer unmanagedPeer)
         : base(protocol, unmanagedPeer)
     {
-        lock (StarCollectorGame.Instance)
-        {
-            StarCollectorGame.Instance.PeerJoined(this);
-        }
-
+        #region Assigned ID
         lock (allocateIDLock)
         {
             playerID = lastAssignedID;
@@ -35,16 +31,26 @@ public class StarCollectorPeer : PeerBase
         }
 
         //notify player of their ID
-        EventData evt = new EventData() 
-        { 
+        EventData evt = new EventData()
+        {
             Code = (byte)AckEventType.AssignPlayerID,
             Parameters = new Dictionary<byte, object>() 
             { 
                 { (byte)EventParameter.PlayerID, this.playerID } 
-            } 
+            }
         };
         evt.Parameters[(byte)EventParameter.PlayerID] = playerID;
-        this.SendEvent(evt, new SendParameters());
+        this.SendEvent(evt, new SendParameters()); 
+        #endregion
+
+        #region Join to world
+        lock (StarCollectorGame.Instance)
+        {
+            StarCollectorGame.Instance.PeerJoined(this);
+        } 
+        #endregion
+
+       
     }
 
     protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)

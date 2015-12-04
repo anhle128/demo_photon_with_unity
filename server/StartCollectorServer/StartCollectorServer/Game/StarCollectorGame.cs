@@ -1,4 +1,5 @@
 ﻿using ExitGames.Concurrency.Fibers;
+using LMLiblary.Model;
 using Photon.SocketServer;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,7 @@ public class StarCollectorGame : IDisposable
 
         listPeer = new List<StarCollectorPeer>();
 
+
         InitRound();
 
         // schedule Simulate 10 times per second, or once every 100 milliseconds
@@ -61,24 +63,57 @@ public class StarCollectorGame : IDisposable
             SpawnPlayer(peer);
         });
 
-        // send player CreateActor events for all players and stars
-        foreach (var p in listPlayer)
+        List<MPlayer> listTest = new List<MPlayer>()
         {
-            EventData evt = new EventData() 
-            { 
-                Code = (byte)AckEventType.CreateActor,
-                Parameters = new Dictionary<byte, object>() 
-                {
-                    {0, p.actorType},
-                    {1, p.actorID},
-                    {2, p.posX},
-                    {3, p.posY},
-                    {4, (p.owner as StarCollectorPeer).playerID}
-                }
-            };
+            new MPlayer()
+            {
+                name = "ducanh",
+                id =1
+            },
+            new MPlayer()
+            {
+                name = "hoanganh",
+                id = 2
+            }
+        };
+        EventData evtDataPlayer = new EventData()
+        {
+            Code = (byte)AckEventType.TestData,
+            Parameters = new Dictionary<byte, object> 
+            {
+                {(byte)ActorType.Player,listTest}
+            }
+        };
+        peer.SendEvent(evtDataPlayer, new SendParameters());
+
+        // send player CreateActor events for all players and stars
+        //foreach (var p in listPlayer)
+        //{
+        //    EventData evt = new EventData() 
+        //    { 
+        //        Code = (byte)AckEventType.CreateActor,
+        //        Parameters = new Dictionary<byte, object>() 
+        //        {
+        //            {0, p.actorType},
+        //            {1, p.actorID},
+        //            {2, p.posX},
+        //            {3, p.posY},
+        //            {4, (p.owner as StarCollectorPeer).playerID}
+        //        }
+        //    };
             
-            peer.SendEvent(evt, new SendParameters());
-        }
+        //}
+        //peer.SendEvent(evt, new SendParameters());
+        //EventData evtDataPlayer = new EventData()
+        //{
+        //    Code = (byte)AckEventType.CreateActor,
+        //    Parameters = new Dictionary<byte, object> 
+        //    {
+        //        {(byte)ActorType.Player,listPlayer}
+        //    }
+        //};
+        //peer.SendEvent(evtDataPlayer, new SendParameters());
+        //peer.SendEvent()
 
         foreach (var s in listStar)
         {
@@ -95,6 +130,17 @@ public class StarCollectorGame : IDisposable
             };
             peer.SendEvent(evt, new SendParameters());
         }
+
+        //EventData evtDataStar = new EventData()
+        //{
+        //    Code = (byte)AckEventType.CreateActor,
+        //    Parameters = new Dictionary<byte, object> 
+        //    {
+        //        {(byte)ActorType.Star,listStar}
+        //    }
+        //};
+        //peer.SendEvent(evtDataStar, new SendParameters());
+
     }
 
     public void PeerLeft(StarCollectorPeer peer)
@@ -154,6 +200,8 @@ public class StarCollectorGame : IDisposable
 
             player.velocityX = velX;
             player.velocityY = velY;
+
+            //List<Player> listOtherPlayer = 
         }
     }
 
@@ -204,20 +252,20 @@ public class StarCollectorGame : IDisposable
         };
         listPlayer.Add(player);
 
-        EventData evt = new EventData()
-        {
-            Code = (byte)AckEventType.CreateActor,
-            Parameters = new Dictionary<byte, object>() 
-            {
-                {0, player.actorType},
-                {1 , player.actorID},
-                {2, player.posX},
-                {3, player.posY},
-                {4, peer.playerID}
-            }
-        };
+        //EventData evt = new EventData()
+        //{
+        //    Code = (byte)AckEventType.CreateActor,
+        //    Parameters = new Dictionary<byte, object>() 
+        //    {
+        //        {0, player.actorType},
+        //        {1 , player.actorID},
+        //        {2, player.posX},
+        //        {3, player.posY},
+        //        {4, peer.playerID}
+        //    }
+        //};
 
-        BroadcastEvent(evt, new SendParameters());
+        //BroadcastEvent(evt, new SendParameters());
     }
 
     public void Simulate(float timeStep) 

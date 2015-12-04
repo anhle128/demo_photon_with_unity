@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using ExitGames.Client.Photon;
+using LMLiblary.Model;
 
 public class StarCollectorClient : MonoBehaviour, IPhotonPeerListener
 {
@@ -18,7 +20,6 @@ public class StarCollectorClient : MonoBehaviour, IPhotonPeerListener
 	// Use this for initialization
 	void Start () 
     {
-        Debug.Log("aaaaaaaaaaaaa");
         connection = new PhotonPeer(this, ConnectionProtocol.Udp);
         connection.Connect(ServerIP, AppName);
 
@@ -57,17 +58,17 @@ public class StarCollectorClient : MonoBehaviour, IPhotonPeerListener
     public void OnEvent(EventData eventData)
     {
         //server raised an event
-        Debug.Log("OnEvent - " + (AckEventType)eventData.Code);
         switch ((AckEventType)eventData.Code)
         {
             // store player ID
             case AckEventType.AssignPlayerID:
                 long playerId = (long)eventData.Parameters[ 0 ];
                 playerID = playerId;
-                Debug.Log("Player id: " + playerId);
+                Debug.Log("player id: " + playerId);
                 break;
             // create actor
             case AckEventType.CreateActor:
+                Debug.Log("CreateActor");
                 ActorType actorType = (ActorType)eventData.Parameters[ 0 ];
                 long actorID = (long)eventData.Parameters[ 1 ];
                 float posX = (float)eventData.Parameters[ 2 ];
@@ -77,14 +78,26 @@ public class StarCollectorClient : MonoBehaviour, IPhotonPeerListener
                 {
                     case ActorType.Player:
                         long ownerID = (long)eventData.Parameters[4];
+                        Debug.Log("ownerID " + ownerID);
                         actor = (GameObject)Instantiate(playerPref, new Vector3(posX, 1.5f, posY), Quaternion.identity);
                         actor.GetComponent<OwnerInfo>().SetOwnerID(ownerID);
                         break;
                     case ActorType.Star:
-                        actor = (GameObject)Instantiate(starPref, new Vector3(posX, 0f, posY), Quaternion.identity);
+                        actor = (GameObject)Instantiate(starPref, new Vector3(posX, 1.5f, posY), Quaternion.identity);
                         break;
                 }
                 actor.GetComponent<GameActor>().SetActorID(actorID);
+                //if(eventData.Parameters.ContainsKey((byte)ActorType.Player))
+                //{
+                //    Debug.Log("vao day");
+                //    Debug.Log(eventData.Parameters.Count);
+                //    foreach (var item in eventData.Parameters)
+                //    {
+                //        Debug.Log(string.Format("key {0} - value {1}",item.Key,item.Value));
+                //    }
+                //    //List<MPlayer> listPlayer = eventData.Parameters[(byte)ActorType.Player] as List<MPlayer>;
+                //    //Debug.Log("size player :" + listPlayer.Count);
+                //}
                 break;
             // destroy actor
             case AckEventType.DestroyActor:
@@ -99,7 +112,7 @@ public class StarCollectorClient : MonoBehaviour, IPhotonPeerListener
                 GameActor updateActor = GameActor.dictActor[(long)eventData.Parameters[0]];
                 float newPosX = (float)eventData.Parameters[ 1 ];
                 float newPosY = (float)eventData.Parameters[ 2 ];
-                updateActor.GetComponent<Player>().UpdatePosition(new Vector3(newPosX, 0f, newPosY));
+                updateActor.GetComponent<ObjPlayer>().UpdatePosition(new Vector3(newPosX, 0f, newPosY));
                 break;
             // log chat messages
             case AckEventType.ChatMessage:

@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3FA0E009-C9DA-4DAE-B2D2-1E368CD7F7AD}</ProjectGuid>
+    <ProjectGuid>{91467D0D-A88C-4F94-9FF2-72A881B5633B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>StartCollectorServer</RootNamespace>
-    <AssemblyName>StarCollectorServer</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>LMLiblary</RootNamespace>
+    <AssemblyName>LMLiblary</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,41 +31,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ExitGamesLibs">
-      <HintPath>..\..\..\liblaries\server\ExitGamesLibs.dll</HintPath>
-    </Reference>
-    <Reference Include="Photon.SocketServer">
-      <HintPath>..\..\..\liblaries\server\Photon.SocketServer.dll</HintPath>
-    </Reference>
-    <Reference Include="PhotonHostRuntimeInterfaces">
-      <HintPath>..\..\..\liblaries\server\PhotonHostRuntimeInterfaces.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actor\Actor.cs" />
-    <Compile Include="Actor\Player.cs" />
-    <Compile Include="Actor\Star.cs" />
-    <Compile Include="Game\PhotonAckGame.cs" />
-    <Compile Include="Game\StarCollectorGame.cs" />
-    <Compile Include="Peer\PhotonAckPeer.cs" />
-    <Compile Include="Peer\StarCollectorPeer.cs" />
-    <Compile Include="StarCollectorServer.cs" />
+    <Compile Include="Enum\AckEventType.cs" />
+    <Compile Include="Enum\AckOperationTypes.cs" />
+    <Compile Include="Enum\AckRequestType.cs" />
+    <Compile Include="Enum\ActorType.cs" />
+    <Compile Include="Enum\EventParameter.cs" />
+    <Compile Include="General\GeneralFunc.cs" />
+    <Compile Include="Model\MPlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LMLiblary\LMLiblary.csproj">
-      <Project>{91467d0d-a88c-4f94-9ff2-72a881b5633b}</Project>
-      <Name>LMLiblary</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
