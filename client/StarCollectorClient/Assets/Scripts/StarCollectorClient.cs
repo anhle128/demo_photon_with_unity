@@ -69,62 +69,14 @@ public class StarCollectorClient : MonoBehaviour, IPhotonPeerListener
                 break;
             // create actor
             case AckEventType.CreateActor:
-                ActorType actorType = (ActorType)eventData.Parameters[ 0 ];
-                long actorID = (long)eventData.Parameters[ 1 ];
-                float posX = (float)eventData.Parameters[ 2 ];
-                float posY = (float)eventData.Parameters[ 3 ];
-                GameObject actor = null;
-                switch (actorType) 
-                {
-                    case ActorType.Player:
-                        long ownerID = (long)eventData.Parameters[4];
-                        Debug.Log("ownerID " + ownerID);
-                        actor = (GameObject)Instantiate(playerPref, new Vector3(posX, 1.5f, posY), Quaternion.identity);
-                        actor.GetComponent<OwnerInfo>().SetOwnerID(ownerID);
-                        break;
-                    case ActorType.Star:
-                        actor = (GameObject)Instantiate(creepPref, new Vector3(posX, 1.5f, posY), Quaternion.identity);
-                        break;
-                }
-                actor.GetComponent<GameActor>().SetActorID(actorID);
-                //if(eventData.Parameters.ContainsKey((byte)ActorType.Player))
-                //{
-                //    Debug.Log("vao day");
-                //    Debug.Log(eventData.Parameters.Count);
-                //    foreach (var item in eventData.Parameters)
-                //    {
-                //        Debug.Log(string.Format("key {0} - value {1}",item.Key,item.Value));
-                //    }
-                //    //List<MPlayer> listPlayer = eventData.Parameters[(byte)ActorType.Player] as List<MPlayer>;
-                //    //Debug.Log("size player :" + listPlayer.Count);
-                //}
                 break;
             case AckEventType.DestroyActor:
-                GameActor destroyActor = GameActor.dictActor[(long)eventData.Parameters[0]];
-                if(destroyActor != null)
-                {
-                    destroyActor.Destruct();
-                }
                 break;
             // update actor
             case AckEventType.UpdateActor:
-                GameActor updateActor = GameActor.dictActor[(long)eventData.Parameters[0]];
-                float newPosX = (float)eventData.Parameters[ 1 ];
-                float newPosY = (float)eventData.Parameters[ 2 ];
-                updateActor.GetComponent<ObjPlayer>().UpdatePosition(new Vector3(newPosX, 0f, newPosY));
                 break;
             // log chat messages
             case AckEventType.ChatMessage:
-                Debug.Log( (string)eventData.Parameters[ 0 ] );
-                break;
-            case AckEventType.TestData:
-                Debug.Log("Receive TestData");
-                byte[] arrByte = eventData.Parameters[(byte)ActorType.Player] as byte[];
-                List<MPlayer> listPlayer = GeneralFunc.Deserialize<List<MPlayer>>(arrByte);
-                foreach (var player in listPlayer)
-                {
-                    Debug.Log(string.Format("name {0} - id {1}", player.name, player.id));
-                }
                 break;
         }
     }

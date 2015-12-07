@@ -51,6 +51,7 @@ Assets/Scripts/GameActor.cs
 Assets/Scripts/ObjPlayer.cs
 Assets/Scripts/OwnerInfo.cs
 Assets/Scripts/PhotonAckClient.cs
+Assets/Scripts/Player.cs
 Assets/Scripts/StarCollectorClient.cs
 -r:"C:/Program Files (x86)/Unity/Editor/Data/Mono\lib/mono/unity\System.Runtime.Serialization.dll"
 -r:"C:/Program Files (x86)/Unity/Editor/Data/Mono\lib/mono/unity\System.Xml.Linq.dll"

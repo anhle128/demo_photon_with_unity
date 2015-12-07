@@ -1,4 +1,5 @@
 ﻿using ExitGames.Concurrency.Fibers;
+using LMLiblary.General;
 using MMOServer.Actor;
 using MMOServer.Peer;
 using Photon.SocketServer;
@@ -147,7 +148,7 @@ namespace MMOServer.Arena
         {
             Player player = new Player()
             {
-                owner = peer,
+                peerID = peer.playerID,
                 actorID = AllocateActorID()
             };
             listPlayer.Add(player);
@@ -156,8 +157,51 @@ namespace MMOServer.Arena
             Region startRegion = GetRegionFromPosition(player);
             startRegion.ActorEnter(player);
 
-            List<Player> listPlayerInRegion = startRegion.listPlayer;
-            List<Creep> listCreepInRegion = startRegion.listCreep;
+            List<Player> listPlayerInRegion = new List<Player>();
+            List<Creep> listCreepInRegion = new List<Creep>();
+
+            List<Region> listInterestRegion = GetInterestRegion(startRegion);
+            foreach (var region in listInterestRegion)
+            {
+                listPlayerInRegion.AddRange(region.listPlayer);
+                listCreepInRegion.AddRange(region.listCreep);
+            }
+            listPlayerInRegion.Remove(player);
+
+            #region Send data creep and other player to this peer
+            EventData evtData = new EventData()
+            {
+                Code = (byte)AckEventType.CreateActor,
+                Parameters = new Dictionary<byte, object>()
+                {
+                    { (byte)ActorType.Player,GeneralFunc.Serialize(listPlayer)},
+                    {(byte)ActorType.Creep, GeneralFunc.Serialize(listCreep)}
+                }
+            };
+            peer.SendEvent(evtData, new SendParameters());
+            #endregion 
+
+            #region Send player to other peer
+            List<Player> listOnePlayer = new List<Player>();
+            listOnePlayer.Add(player);
+
+            foreach (var playerInRegion in listPlayerInRegion)
+            {
+                ActorPeer actorPeer = listPeer.Where(a => a.playerID == playerInRegion.actorID).FirstOrDefault();
+                if (actorPeer != null)
+                {
+                    EventData evtPlayer = new EventData()
+                    {
+                        Code = (byte)AckEventType.CreateActor,
+                        Parameters = new Dictionary<byte, object>()
+                        {
+                            {(byte)ActorType.Player,GeneralFunc.Serialize(listOnePlayer)}
+                        }
+                    };
+                    actorPeer.SendEvent(evtData, new SendParameters());
+                }
+            } 
+            #endregion
         }
 
         public long AllocateActorID()
@@ -172,11 +216,33 @@ namespace MMOServer.Arena
                 listPeer.Remove(peer);
             });
 
-             Player player = listPlayer.Where(a => a.owner == peer).FirstOrDefault();
+             Player player = listPlayer.Where(a => a.peerID == peer.playerID).FirstOrDefault();
              if (player != null)
              {
- 
-             }
+                lock (listPlayer)
+                {
+                    listPlayer.Remove(player);
+                }
+                Region startRegion = GetRegionFromPosition(player);
+                startRegion.ActorEnter(player);
+
+                List<Player> listPlayerInRegion = new List<Player>();
+
+                List<Region> listInterestRegion = GetInterestRegion(startRegion);
+                foreach (var region in listInterestRegion)
+                {
+                    listPlayerInRegion.AddRange(region.listPlayer);
+                }
+
+                EventData evtData = new EventData()
+                {
+                    Code = (byte)AckEventType.DestroyActor,
+                    Parameters = new Dictionary<byte, object>()
+                    {
+                        {(byte)ActorType.Player, GeneralFunc.Serialize(player)}
+                    }
+                };
+            }
         }
 
         public void OnOperationRequest(ActorPeer sender, OperationRequest operationRequest, SendParameters sendParameters)
@@ -192,6 +258,7 @@ namespace MMOServer.Arena
         {
             if (operationRequest.OperationCode == (byte)AckRequestType.MoveCommand)
             {
+                IActor player = GeneralFunc.Deserialize<IActor>(operationRequest.Parameters[0] as byte[]);
                 //// move command from player
                 //long actorID = (long)operationRequest.Parameters[0];
                 //float velX = (float)operationRequest.Parameters[1];

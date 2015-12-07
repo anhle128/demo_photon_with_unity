@@ -50,19 +50,19 @@
      <Compile Include="Assets\Scripts\ObjPlayer.cs" />
      <Compile Include="Assets\Scripts\OwnerInfo.cs" />
      <Compile Include="Assets\Scripts\PhotonAckClient.cs" />
+     <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\StarCollectorClient.cs" />
-     <None Include="Assets\Plugins\Visual\protobuf-net.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.9/Standalone/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="LMLiblary">
- <HintPath>C:/Users/PHUNGGIA/Desktop/MyProject/Photon/Project/demo_photon_with_unity/client/StarCollectorClient/Assets/Plugins/Visual/LMLiblary.dll</HintPath>
+ <HintPath>F:/PhotonProjects/demo_photon_with_unity/client/StarCollectorClient/Assets/Plugins/Visual/LMLiblary.dll</HintPath>
  </Reference>
  <Reference Include="Photon3Unity3D">
- <HintPath>C:/Users/PHUNGGIA/Desktop/MyProject/Photon/Project/demo_photon_with_unity/client/StarCollectorClient/Assets/Plugins/Visual/Photon3Unity3D.dll</HintPath>
+ <HintPath>F:/PhotonProjects/demo_photon_with_unity/client/StarCollectorClient/Assets/Plugins/Visual/Photon3Unity3D.dll</HintPath>
  </Reference>
  <Reference Include="protobuf-net">
- <HintPath>C:/Users/PHUNGGIA/Desktop/MyProject/Photon/Project/demo_photon_with_unity/client/StarCollectorClient/Assets/Plugins/Visual/protobuf-net.dll</HintPath>
+ <HintPath>F:/PhotonProjects/demo_photon_with_unity/client/StarCollectorClient/Assets/Plugins/Visual/protobuf-net.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

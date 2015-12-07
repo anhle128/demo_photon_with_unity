@@ -49,7 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actor\IActor.cs" />
     <Compile Include="Actor\Creep.cs" />
     <Compile Include="Actor\Player.cs" />
     <Compile Include="Arena\Region.cs" />
