@@ -1,4 +1,5 @@
 ﻿using ExitGames.Concurrency.Fibers;
+using LMLiblary.General;
 using LMLiblary.Model;
 using Photon.SocketServer;
 using System;
@@ -63,30 +64,35 @@ public class StarCollectorGame : IDisposable
             SpawnPlayer(peer);
         });
 
-        List<MPlayer> listTest = new List<MPlayer>()
-        {
-            new MPlayer()
-            {
-                name = "ducanh",
-                id =1
-            },
-            new MPlayer()
-            {
-                name = "hoanganh",
-                id = 2
-            }
-        };
-        EventData evtDataPlayer = new EventData()
-        {
-            Code = (byte)AckEventType.TestData,
-            Parameters = new Dictionary<byte, object> 
-            {
-                {(byte)ActorType.Player,listTest}
-            }
-        };
-        peer.SendEvent(evtDataPlayer, new SendParameters());
+        #region Test code
+        //List<MPlayer> listTest = new List<MPlayer>()
+        //{
+        //    new MPlayer()
+        //    {
+        //        name = "ducanh",
+        //        id =1
+        //    },
+        //    new MPlayer()
+        //    {
+        //        name = "hoanganh",
+        //        id = 2
+        //    }
+        //};
+        //EventData evtDataPlayer = new EventData()
+        //{
+        //    Code = (byte)AckEventType.TestData,
+        //    Parameters = new Dictionary<byte, object> 
+        //    {
+        //        {(byte)ActorType.Player,GeneralFunc.Serialize(listTest)}
+        //    }
+        //};
+        //peer.SendEvent(evtDataPlayer, new SendParameters()); 
+        #endregion
 
-        // send player CreateActor events for all players and stars
+        // send player CreateActor events for players and stars which are in interest
+
+
+
         //foreach (var p in listPlayer)
         //{
         //    EventData evt = new EventData() 

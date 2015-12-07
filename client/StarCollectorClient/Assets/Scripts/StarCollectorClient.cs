@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ExitGames.Client.Photon;
 using LMLiblary.Model;
+using LMLiblary.General;
 
 public class StarCollectorClient : MonoBehaviour, IPhotonPeerListener
 {
@@ -15,7 +16,7 @@ public class StarCollectorClient : MonoBehaviour, IPhotonPeerListener
     public string AppName = "StarCollectorServer";
 
     public GameObject playerPref;
-    public GameObject starPref;
+    public GameObject creepPref;
 
 	// Use this for initialization
 	void Start () 
@@ -68,7 +69,6 @@ public class StarCollectorClient : MonoBehaviour, IPhotonPeerListener
                 break;
             // create actor
             case AckEventType.CreateActor:
-                Debug.Log("CreateActor");
                 ActorType actorType = (ActorType)eventData.Parameters[ 0 ];
                 long actorID = (long)eventData.Parameters[ 1 ];
                 float posX = (float)eventData.Parameters[ 2 ];
@@ -83,7 +83,7 @@ public class StarCollectorClient : MonoBehaviour, IPhotonPeerListener
                         actor.GetComponent<OwnerInfo>().SetOwnerID(ownerID);
                         break;
                     case ActorType.Star:
-                        actor = (GameObject)Instantiate(starPref, new Vector3(posX, 1.5f, posY), Quaternion.identity);
+                        actor = (GameObject)Instantiate(creepPref, new Vector3(posX, 1.5f, posY), Quaternion.identity);
                         break;
                 }
                 actor.GetComponent<GameActor>().SetActorID(actorID);
@@ -99,7 +99,6 @@ public class StarCollectorClient : MonoBehaviour, IPhotonPeerListener
                 //    //Debug.Log("size player :" + listPlayer.Count);
                 //}
                 break;
-            // destroy actor
             case AckEventType.DestroyActor:
                 GameActor destroyActor = GameActor.dictActor[(long)eventData.Parameters[0]];
                 if(destroyActor != null)
@@ -118,6 +117,15 @@ public class StarCollectorClient : MonoBehaviour, IPhotonPeerListener
             case AckEventType.ChatMessage:
                 Debug.Log( (string)eventData.Parameters[ 0 ] );
                 break;
+            case AckEventType.TestData:
+                Debug.Log("Receive TestData");
+                byte[] arrByte = eventData.Parameters[(byte)ActorType.Player] as byte[];
+                List<MPlayer> listPlayer = GeneralFunc.Deserialize<List<MPlayer>>(arrByte);
+                foreach (var player in listPlayer)
+                {
+                    Debug.Log(string.Format("name {0} - id {1}", player.name, player.id));
+                }
+                break;
         }
     }
 
@@ -133,7 +141,6 @@ public class StarCollectorClient : MonoBehaviour, IPhotonPeerListener
         switch (statusCode)
         {
             case StatusCode.Connect:
-                Debug.Log("Connected, awaiting player ID...");
                 break;
             case StatusCode.Disconnect:
             case StatusCode.DisconnectByServer:

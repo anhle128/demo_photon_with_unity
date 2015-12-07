@@ -5,5 +5,6 @@ using System.Text;
 public enum ActorType : byte
 {
     Star = 0,
-    Player = 1
+    Player = 1,
+    Creep =2
 }
