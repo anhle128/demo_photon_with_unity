@@ -61,7 +61,7 @@ public class PhotonAckClient : MonoBehaviour, IPhotonPeerListener
 
         if((AckEventType)eventData.Code == AckEventType.AssignPlayerID)
         {
-            this.localPlayerID = (long)eventData.Parameters[(byte)EventParameter.PlayerID];
+            this.localPlayerID = (long)eventData.Parameters[(byte)Parameter.PlayerID];
             Debug.Log("Received player ID: " + localPlayerID);
         }
     }

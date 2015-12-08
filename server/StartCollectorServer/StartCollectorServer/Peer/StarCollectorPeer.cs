@@ -36,10 +36,10 @@ public class StarCollectorPeer : PeerBase
             Code = (byte)AckEventType.AssignPlayerID,
             Parameters = new Dictionary<byte, object>() 
             { 
-                { (byte)EventParameter.PlayerID, this.playerID } 
+                { (byte)Parameter.PlayerID, this.playerID } 
             }
         };
-        evt.Parameters[(byte)EventParameter.PlayerID] = playerID;
+        evt.Parameters[(byte)Parameter.PlayerID] = playerID;
         this.SendEvent(evt, new SendParameters()); 
         #endregion
 

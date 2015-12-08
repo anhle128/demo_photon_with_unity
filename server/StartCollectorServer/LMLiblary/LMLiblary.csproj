@@ -44,10 +44,16 @@
     <Compile Include="Enum\AckOperationTypes.cs" />
     <Compile Include="Enum\AckRequestType.cs" />
     <Compile Include="Enum\ActorType.cs" />
-    <Compile Include="Enum\EventParameter.cs" />
+    <Compile Include="Enum\Parameter.cs" />
     <Compile Include="General\GeneralFunc.cs" />
+    <Compile Include="Model\Creep.cs" />
     <Compile Include="Model\IActor.cs" />
+    <Compile Include="Model\Index.cs" />
+    <Compile Include="Model\InterestRegions.cs" />
+    <Compile Include="Model\Movement.cs" />
     <Compile Include="Model\MPlayer.cs" />
+    <Compile Include="Model\MPosition.cs" />
+    <Compile Include="Model\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

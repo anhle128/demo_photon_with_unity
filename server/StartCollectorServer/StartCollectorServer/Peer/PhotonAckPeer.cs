@@ -26,7 +26,7 @@ namespace StartCollectorServer.Peer
             { 
                 Parameters = new Dictionary<byte, object>() 
                 { 
-                    { (byte)EventParameter.PlayerID, this.playerID } 
+                    { (byte)Parameter.PlayerID, this.playerID } 
                 } 
             };
             Console.WriteLine("PhotonAckPeer PlayerID: " + this.playerID);

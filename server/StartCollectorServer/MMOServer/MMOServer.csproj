@@ -33,6 +33,10 @@
     <Reference Include="ExitGamesLibs">
       <HintPath>..\..\..\liblaries\server\ExitGamesLibs.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=1.2.14.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\liblaries\server\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Photon.SocketServer">
       <HintPath>..\..\..\liblaries\server\Photon.SocketServer.dll</HintPath>
     </Reference>
@@ -49,8 +53,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actor\Creep.cs" />
-    <Compile Include="Actor\Player.cs" />
     <Compile Include="Arena\Region.cs" />
     <Compile Include="Arena\ServerArena.cs" />
     <Compile Include="ApplicationMMOServer.cs" />
@@ -63,7 +65,6 @@
       <Name>LMLiblary</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

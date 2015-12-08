@@ -33,17 +33,17 @@ namespace MMOServer.Peer
                 lastAssignedID++;
             }
 
-            //notify player of their ID
-            EventData evt = new EventData()
-            {
-                Code = (byte)AckEventType.AssignPlayerID,
-                Parameters = new Dictionary<byte, object>() 
-            { 
-                { (byte)EventParameter.PlayerID, this.playerID } 
-            }
-            };
-            evt.Parameters[(byte)EventParameter.PlayerID] = playerID;
-            this.SendEvent(evt, new SendParameters());
+            ////notify player of their ID
+            //EventData evt = new EventData()
+            //{
+            //    Code = (byte)AckEventType.AssignPlayerID,
+            //    Parameters = new Dictionary<byte, object>() 
+            //{ 
+            //    { (byte)EventParameter.PlayerID, this.playerID } 
+            //}
+            //};
+            //evt.Parameters[(byte)EventParameter.PlayerID] = playerID;
+            //this.SendEvent(evt, new SendParameters());
             #endregion
 
             #region Join to Arena

@@ -13,4 +13,6 @@ public class IActor
     public float posX; // the world X position of this actor
     [ProtoMember(5)]
     public float posY; // the world Y position of this actor
+    [ProtoMember(6)]
+    public Index index; // the world Y position of this actor
 }

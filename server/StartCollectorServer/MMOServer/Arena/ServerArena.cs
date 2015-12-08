@@ -1,6 +1,6 @@
 ﻿using ExitGames.Concurrency.Fibers;
 using LMLiblary.General;
-using MMOServer.Actor;
+using LMLiblary.Model;
 using MMOServer.Peer;
 using Photon.SocketServer;
 using System;
@@ -11,15 +11,12 @@ namespace MMOServer.Arena
 {
     public class ServerArena : IDisposable
     {
-        int numberRegionVertical = 50;
-        int numberRegionHorizontal = 50;
-        int regionHeight = 1;
-        int regionWidth = 1;
+        public static int numberRegionVerAndHor = 50;
+        public static int regionSize = 5;
 
-        public List<Player> listPlayer = new List<Player>();
-        public List<Creep> listCreep = new List<Creep>();
+        public List<IActor> listPlayer = new List<IActor>();
+        public List<IActor> listCreep = new List<IActor>();
 
-        public Region[,] arrRegion;
 
         public List<ActorPeer> listPeer;
 
@@ -45,6 +42,7 @@ namespace MMOServer.Arena
             listPeer = new List<ActorPeer>();
 
             InitRegion();
+
             InitCreep();
         }
 
@@ -58,62 +56,47 @@ namespace MMOServer.Arena
             for (int i = 0; i < 100; i++)
             {
                 // find a random position
-                double x = rand.NextDouble();
-                double y = rand.NextDouble();
-                // map to the range -50, +50
-                x -= 0.5f;
-                x *= 100f; // 0.5 * 100 = 50
-                y -= 0.5f;
-                y *= 100f;
+                double x = rand.Next
+                (
+                    -31, 
+                    31
+                );
 
-                Creep creep = new Creep()
+                double y = rand.Next
+                (
+                    -31, 
+                    31
+                );
+
+                IActor creep = new IActor()
                 {
+                    actorType = (byte)ActorType.Creep,
                     posX = (float)x,
                     posY = (float)y,
                     actorID = AllocateActorID()
                 };
                 listCreep.Add(creep);
 
-                Region region = GetRegionFromPosition(creep);
+                Region region = Region.GetRegionFromPosition(creep);
                 region.ActorEnter(creep);
             }
         }
 
         public void InitRegion() 
         {
-            arrRegion = new Region[numberRegionHorizontal, numberRegionVertical];
-            for (int x = 0; x < numberRegionHorizontal; x++)
+            Region.arrRegion = new Region[numberRegionVerAndHor, numberRegionVerAndHor];
+            for (int x = 0; x < numberRegionVerAndHor; x++)
             {
-                for (int y = 0; y < numberRegionVertical; y++)
+                for (int y = 0; y < numberRegionVerAndHor; y++)
                 {
                     Region region = new Region()
                     {
                         x = x,
                         y = y
                     };
-                    arrRegion[x, y] = region;
+                    Region.arrRegion[x, y] = region;
                 }
             }
-        }
-
-        public Region GetRegionFromPosition(IActor actor) 
-        {
-            int indexX = (int)(actor.posX / regionWidth) + 1;
-            if (indexX > numberRegionHorizontal-1)
-            {
-                indexX = numberRegionVertical - 1;
-                actor.posX = indexX * regionWidth;
-            }
-
-
-            int indexY = (int)(actor.posY / regionHeight) + 1;
-            if(indexY > numberRegionVertical)
-            {
-                indexY = numberRegionVertical - 1;
-                actor.posY = indexY * regionHeight;
-            }
-
-            return arrRegion[indexX, indexY];
         }
 
         public List<Region> GetInterestRegion(Region pointRegion) 
@@ -126,9 +109,9 @@ namespace MMOServer.Arena
                     int checkX = pointRegion.x + x;
                     int checkY = pointRegion.y + y;
 
-                    if (checkX >= 0 && checkX < numberRegionHorizontal && checkY >= 0 && checkY < numberRegionVertical)
+                    if (checkX >= 0 && checkX < numberRegionVerAndHor && checkY >= 0 && checkY < numberRegionVerAndHor)
                     {
-                        listResult.Add(arrRegion[checkX, checkY]);
+                        listResult.Add(Region.arrRegion[checkX, checkY]);
                     }
                 }
             }
@@ -146,62 +129,46 @@ namespace MMOServer.Arena
 
         public void SpawnPlayer(ActorPeer peer)
         {
-            Player player = new Player()
+            IActor player = new IActor()
             {
+                actorType = (byte)ActorType.Player,
                 peerID = peer.playerID,
-                actorID = AllocateActorID()
+                actorID = AllocateActorID(),
+                posX =10,
+                posY =10
             };
             listPlayer.Add(player);
 
+            //#region Test Code
+            ////List<MPlayer> listTest = new List<MPlayer>()
+            ////{
+            ////    new MPlayer() { id = 1,name = "duc anh"},
+            ////    new MPlayer() {id = 2, name = "hoang anh"}
+            ////};
+            //EventData evtData = new EventData()
+            //{
+            //    Code = (byte)AckEventType.CreateActor,
+            //    Parameters = new Dictionary<byte, object>()
+            //    {
+            //        {(byte)ActorType.Creep, GeneralFunc.Serialize(listCreep)}
+            //    }
+            //};
+            //peer.SendEvent(evtData, new SendParameters());
+            //#endregion
 
-            Region startRegion = GetRegionFromPosition(player);
+            Region startRegion = Region.GetRegionFromPosition(player);
+            Console.WriteLine("aaaaaaaaaaaaaaaaaaaaaaa");
             startRegion.ActorEnter(player);
 
-            List<Player> listPlayerInRegion = new List<Player>();
-            List<Creep> listCreepInRegion = new List<Creep>();
-
-            List<Region> listInterestRegion = GetInterestRegion(startRegion);
-            foreach (var region in listInterestRegion)
+            EventData evtPlayer = new EventData()
             {
-                listPlayerInRegion.AddRange(region.listPlayer);
-                listCreepInRegion.AddRange(region.listCreep);
-            }
-            listPlayerInRegion.Remove(player);
-
-            #region Send data creep and other player to this peer
-            EventData evtData = new EventData()
-            {
-                Code = (byte)AckEventType.CreateActor,
-                Parameters = new Dictionary<byte, object>()
+                Code = (byte)AckEventType.AssignPlayerID,
+                Parameters = new Dictionary<byte, object>() 
                 {
-                    { (byte)ActorType.Player,GeneralFunc.Serialize(listPlayer)},
-                    {(byte)ActorType.Creep, GeneralFunc.Serialize(listCreep)}
+                    {0,GeneralFunc.Serialize(player)}
                 }
             };
-            peer.SendEvent(evtData, new SendParameters());
-            #endregion 
-
-            #region Send player to other peer
-            List<Player> listOnePlayer = new List<Player>();
-            listOnePlayer.Add(player);
-
-            foreach (var playerInRegion in listPlayerInRegion)
-            {
-                ActorPeer actorPeer = listPeer.Where(a => a.playerID == playerInRegion.actorID).FirstOrDefault();
-                if (actorPeer != null)
-                {
-                    EventData evtPlayer = new EventData()
-                    {
-                        Code = (byte)AckEventType.CreateActor,
-                        Parameters = new Dictionary<byte, object>()
-                        {
-                            {(byte)ActorType.Player,GeneralFunc.Serialize(listOnePlayer)}
-                        }
-                    };
-                    actorPeer.SendEvent(evtData, new SendParameters());
-                }
-            } 
-            #endregion
+            peer.SendEvent(evtPlayer, new SendParameters());
         }
 
         public long AllocateActorID()
@@ -216,32 +183,15 @@ namespace MMOServer.Arena
                 listPeer.Remove(peer);
             });
 
-             Player player = listPlayer.Where(a => a.peerID == peer.playerID).FirstOrDefault();
+             IActor player = listPlayer.Where(a => a.peerID == peer.playerID).FirstOrDefault();
              if (player != null)
              {
                 lock (listPlayer)
                 {
                     listPlayer.Remove(player);
                 }
-                Region startRegion = GetRegionFromPosition(player);
-                startRegion.ActorEnter(player);
-
-                List<Player> listPlayerInRegion = new List<Player>();
-
-                List<Region> listInterestRegion = GetInterestRegion(startRegion);
-                foreach (var region in listInterestRegion)
-                {
-                    listPlayerInRegion.AddRange(region.listPlayer);
-                }
-
-                EventData evtData = new EventData()
-                {
-                    Code = (byte)AckEventType.DestroyActor,
-                    Parameters = new Dictionary<byte, object>()
-                    {
-                        {(byte)ActorType.Player, GeneralFunc.Serialize(player)}
-                    }
-                };
+                Region currentRegion = Region.GetRegionFromPosition(player);
+                currentRegion.ActorExit(player);
             }
         }
 
@@ -258,20 +208,32 @@ namespace MMOServer.Arena
         {
             if (operationRequest.OperationCode == (byte)AckRequestType.MoveCommand)
             {
-                IActor player = GeneralFunc.Deserialize<IActor>(operationRequest.Parameters[0] as byte[]);
-                //// move command from player
+                // move command from player
                 //long actorID = (long)operationRequest.Parameters[0];
                 //float velX = (float)operationRequest.Parameters[1];
                 //float velY = (float)operationRequest.Parameters[2];
 
-                //// find actor
-                //Player player = (listPlayer.Find(pl =>
-                //{
-                //    return pl.actorID == actorID;
-                //}));
+                Movement movement = GeneralFunc.Deserialize<Movement>(operationRequest.Parameters[(byte)Parameter.Data] as byte[]);
 
-                //player.velocityX = velX;
-                //player.velocityY = velY;
+                // find actor
+                IActor player = (listPlayer.Find(pl =>
+                {
+                    return pl.actorID == movement.actorID;
+                }));
+
+                Region oldRegion = Region.GetRegionFromPosition(player);
+
+                player.posX = movement.posX;
+                player.posY = movement.posY;
+
+                Region newRegion = Region.GetRegionFromPosition(player);
+
+                if(oldRegion != newRegion)
+                {
+                    oldRegion.ActorExit(player);
+
+                    newRegion.ActorEnter(player);
+                }
             }
         }
     }
