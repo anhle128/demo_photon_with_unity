@@ -11,13 +11,7 @@ public class CheckRegion : MonoBehaviour {
 
     public void Load() 
     {
-         this.x = GetIndex(this.transform.position.x);
-         this.y = GetIndex(this.transform.position.z);
-    }
-
-    public int GetIndex(float position)
-    {
-        int indexResult = (numberRegionVerAndHor / 2) + (int)(position / regionSize);
-        return indexResult;
+         this.x = AreaController.Instance.GetIndex(this.transform.position.x);
+         this.y = AreaController.Instance.GetIndex(this.transform.position.z);
     }
 }

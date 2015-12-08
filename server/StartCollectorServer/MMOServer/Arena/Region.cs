@@ -169,6 +169,7 @@ namespace MMOServer.Arena
 
         public static Region GetRegionFromPosition(IActor actor)
         {
+            Console.WriteLine(string.Format("posX {0} - posY {1}",actor.posX,actor.posY));
             int indexX = GetIndex(actor.posX);
             int indexY = GetIndex(actor.posY);
             return Region.arrRegion[indexX, indexY];
@@ -176,7 +177,9 @@ namespace MMOServer.Arena
 
         private static int GetIndex(float position)
         {
-            int indexResult = (ServerArena.numberRegionVerAndHor / 2) + (int)(position / ServerArena.regionSize);
+            //int indexResult = (ServerArena.numberRegionVerAndHor / 2) + (int)(position / ServerArena.regionSize);
+
+            int indexResult = (int)((position + (ServerArena.numberRegionVerAndHor / 2)) / ServerArena.regionSize);
             return indexResult;
         }
 

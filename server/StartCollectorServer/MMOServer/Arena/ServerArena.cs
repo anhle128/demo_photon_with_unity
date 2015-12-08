@@ -53,20 +53,11 @@ namespace MMOServer.Arena
 
         public void InitCreep() 
         {
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 500; i++)
             {
                 // find a random position
-                double x = rand.Next
-                (
-                    -31, 
-                    31
-                );
-
-                double y = rand.Next
-                (
-                    -31, 
-                    31
-                );
+                double x = rand.Next(-25, 225);
+                double y = rand.Next(-25, 225);
 
                 IActor creep = new IActor()
                 {

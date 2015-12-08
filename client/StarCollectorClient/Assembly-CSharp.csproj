@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Area\AreaController.cs" />
+     <Compile Include="Assets\Scripts\Area\TileRegion.cs" />
      <Compile Include="Assets\Scripts\CheckRegion.cs" />
      <Compile Include="Assets\Scripts\ClientPlayer.cs" />
      <Compile Include="Assets\Scripts\GameActor.cs" />
@@ -57,13 +58,13 @@
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.9/Standalone/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="LMLiblary">
- <HintPath>C:/Users/PHUNGGIA/Desktop/MyProject/Photon/Project/demo_photon_with_unity/client/StarCollectorClient/Assets/Plugins/Visual/LMLiblary.dll</HintPath>
+ <HintPath>F:/PhotonProjects/demo_photon_with_unity/client/StarCollectorClient/Assets/Plugins/Visual/LMLiblary.dll</HintPath>
  </Reference>
  <Reference Include="Photon3Unity3D">
- <HintPath>C:/Users/PHUNGGIA/Desktop/MyProject/Photon/Project/demo_photon_with_unity/client/StarCollectorClient/Assets/Plugins/Visual/Photon3Unity3D.dll</HintPath>
+ <HintPath>F:/PhotonProjects/demo_photon_with_unity/client/StarCollectorClient/Assets/Plugins/Visual/Photon3Unity3D.dll</HintPath>
  </Reference>
  <Reference Include="protobuf-net">
- <HintPath>C:/Users/PHUNGGIA/Desktop/MyProject/Photon/Project/demo_photon_with_unity/client/StarCollectorClient/Assets/Plugins/Visual/protobuf-net.dll</HintPath>
+ <HintPath>F:/PhotonProjects/demo_photon_with_unity/client/StarCollectorClient/Assets/Plugins/Visual/protobuf-net.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

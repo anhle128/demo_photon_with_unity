@@ -26,7 +26,8 @@ public class ClientPlayer : MonoBehaviour
         isMine = (ownerInfo.OwnerID == StarCollectorClient.playerID);
 
         Camera.main.transform.parent = this.transform;
-	}
+        Camera.main.transform.localPosition = new Vector3(0f, 14f, 0f);
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -49,8 +50,8 @@ public class ClientPlayer : MonoBehaviour
 
                 Movement moveMent = new Movement();
                 moveMent.actorID = actorInfo.actor.actorID;
-                moveMent.posX = mX;
-                moveMent.posY = mY;
+                moveMent.posX = this.transform.position.x;
+                moveMent.posY = this.transform.position.z;
 
                 requestDict.Add((byte)Parameter.Data,LMLiblary.General.GeneralFunc.Serialize(moveMent));
 

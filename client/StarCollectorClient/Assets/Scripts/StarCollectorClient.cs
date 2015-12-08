@@ -68,7 +68,12 @@ public class StarCollectorClient : MonoBehaviour, IPhotonPeerListener
             // store player ID
             case AckEventType.AssignPlayerID:
                 IActor player = GeneralFunc.Deserialize<IActor>(eventData.Parameters[0] as byte[]);
-                GameActor playerCreated = Instantiate(playerPref, new Vector3(player.posX, 0.5f, player.posY), playerPref.transform.rotation) as GameActor;
+                GameActor playerCreated = Instantiate
+                (
+                    playerPref, 
+                    new Vector3(player.posX, 0.5f, player.posY), 
+                    playerPref.transform.rotation
+                ) as GameActor;
                 playerCreated.SetActor(player);
                 playerCreated.GetComponent<OwnerInfo>().SetOwnerID(player.peerID);
                 StarCollectorClient.playerID = player.peerID;
@@ -79,7 +84,7 @@ public class StarCollectorClient : MonoBehaviour, IPhotonPeerListener
                 if(eventData.Parameters.ContainsKey((byte)Parameter.Creep))
                 {
                     List<IActor> listAllCreep = GeneralFunc.Deserialize<List<IActor>>(eventData.Parameters[(byte)Parameter.Creep] as byte[]);
-
+                    Debug.Log("count all creep :" + listAllCreep.Count);
                     List<IActor> listSameCreep = GetListSameActor(listAllCreep, GameActor.listCreep);
 
                     List<IActor> listNewCreep = listAllCreep.Except(listSameCreep).ToList();
@@ -105,10 +110,12 @@ public class StarCollectorClient : MonoBehaviour, IPhotonPeerListener
                     if (dataInterestRegion.playerPosition != null)
                         Debug.Log(string.Format("player position -------------- x: {0} - y: {1}", dataInterestRegion.playerPosition.x, dataInterestRegion.playerPosition.y));
 
-                    foreach (var data in dataInterestRegion.listRegion)
-                    {
-                        Debug.Log(string.Format("x: {0} - y: {1}",data.x,data.y));
-                    }
+                    //foreach (var data in dataInterestRegion.listRegion)
+                    //{
+                    //    Debug.Log(string.Format("x: {0} - y: {1}",data.x,data.y));
+                    //}
+
+                    AreaController.Instance.ShowInterestRegion(dataInterestRegion.listRegion);
                 }
                 break;
             case AckEventType.DestroyActor:
