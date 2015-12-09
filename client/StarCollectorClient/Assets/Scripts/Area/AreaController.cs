@@ -84,8 +84,8 @@ public class AreaController : MonoBehaviour {
         for (int i = 0; i < 100; i++)
         {
             // find a random position
-            double x = rand.Next(-25, 225);
-            double y = rand.Next(-25, 225);
+            double x = rand.Next(-24, 220);
+            double y = rand.Next(-24, 220);
 
             GetRegionFromPosition(x, y);
         }
@@ -93,16 +93,17 @@ public class AreaController : MonoBehaviour {
 
     public TileRegion GetRegionFromPosition(double posX, double posY)
     {
+        Debug.Log("-----------------------------");
+        Debug.Log(string.Format("posX: {0} - posY: {1}", posX, posY));
         int indexX = GetIndex(posX);
         int indexY = GetIndex(posY);
+        Debug.Log(string.Format("indexX: {0} - indexY: {1}", indexX, indexY));
         return arrRegion[indexX, indexY];
     }
 
     public int GetIndex(double position)
     {
-        //int indexResult = (ServerArena.numberRegionVerAndHor / 2) + (int)(position / ServerArena.regionSize);
-
-        int indexResult = (int)((position + (numberRegionVerAndHor / 2)) / regionSize);
-        return indexResult;
+        float indexResult = (float)((position + (numberRegionVerAndHor / 2)) / regionSize);
+        return (int)Mathf.Round(indexResult);
     }
 }
