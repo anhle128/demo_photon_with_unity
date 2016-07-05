@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Area\AreaController.cs" />
+    <Compile Include="Assets\Scripts\Area\TileRegion.cs" />
     <Compile Include="Assets\Scripts\CheckRegion.cs" />
     <Compile Include="Assets\Scripts\ClientPlayer.cs" />
     <Compile Include="Assets\Scripts\GameActor.cs" />

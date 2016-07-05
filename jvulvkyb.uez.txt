@@ -1,0 +1,46 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	modified:   client/StarCollectorClient/Assembly-CSharp-vs.csproj
+#	modified:   client/StarCollectorClient/Assembly-CSharp.csproj
+#	modified:   client/StarCollectorClient/Assets/Scenes/InGame.unity
+#	modified:   client/StarCollectorClient/Assets/Scripts/Area/AreaController.cs
+#	modified:   client/StarCollectorClient/Library/ScriptAssemblies/Assembly-CSharp.dll
+#	modified:   client/StarCollectorClient/Library/ScriptAssemblies/Assembly-CSharp.dll.mdb
+#	modified:   client/StarCollectorClient/Library/assetDatabase3
+#	modified:   client/StarCollectorClient/Library/guidmapper
+#	new file:   client/StarCollectorClient/Library/metadata/10/10fcdfd1eb5e06c499991a70355b300b
+#	new file:   client/StarCollectorClient/Library/metadata/38/38d405c119fcc7c4e83d4a478a40ff2f
+#	modified:   client/StarCollectorClient/Library/metadata/39/39fd968cb5f0df94d9779067a8caeda8
+#	new file:   client/StarCollectorClient/Library/metadata/4a/4ad02dc83da735c4e8d945332b9202f6
+#	modified:   client/StarCollectorClient/Library/metadata/5a/5a04eea8a91c63f46a20c2351912ef0e
+#	modified:   client/StarCollectorClient/Library/metadata/60/60cafdef3cbc7cc449f30cceb5ef02d4
+#	new file:   client/StarCollectorClient/Library/metadata/6e/6e71a3e2fb5854e43823a9da25b68e21
+#	new file:   client/StarCollectorClient/Library/metadata/a0/a060c7f56d935d24dbe85c9e8745dc89
+#	modified:   client/StarCollectorClient/Library/metadata/bf/bf1cd7003f9e80844bda34a2ba3b3827
+#	modified:   client/StarCollectorClient/Library/metadata/bf/bfdef4880bf269644bdb4369728a44c3
+#	modified:   client/StarCollectorClient/StarCollectorClient-csharp.sln
+#	modified:   client/StarCollectorClient/StarCollectorClient.sln
+#	new file:   client/StarCollectorClient/Temp/CaseSensitiveTest
+#
+# Changes not staged for commit:
+#	modified:   client/StarCollectorClient/UnityVS.StarCollectorClient.CSharp.csproj
+#	modified:   server/StartCollectorServer/MMOServer/Arena/Region.cs
+#	modified:   server/StartCollectorServer/MMOServer/Arena/ServerArena.cs
+#	modified:   server/StartCollectorServer/TestConsoleProject/Program.cs
+#
+# Untracked files:
+#	client/StarCollectorClient/Temp/UnityLockfile
+#	client/StarCollectorClient/Temp/UnityTempFile-156796a59a1c2854098e997368933ec6
+#	client/StarCollectorClient/Temp/UnityTempFile-33f63fff4befc7741b3e80d92c2f70a3
+#	client/StarCollectorClient/Temp/UnityTempFile-6a4966450ab87d7499c40f174ce37d0c
+#	client/StarCollectorClient/Temp/UnityTempFile-9ef49f4e05a1d414b92c7ed2ba2a21cf
+#	client/StarCollectorClient/Temp/UnityTempFile-b96c9220af7a1994f94c8ee6f4b284f7
+#	client/StarCollectorClient/Temp/UnityTempFile-c428179021e63584e8e131cb085373ae
+#	client/StarCollectorClient/Temp/__EditModeScene
+#
+

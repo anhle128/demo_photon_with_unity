@@ -2,8 +2,6 @@
 using Photon.SocketServer;
 using PhotonHostRuntimeInterfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MMOServer.Peer
 {
@@ -20,7 +18,7 @@ namespace MMOServer.Peer
         protected ActorPeer(InitRequest initRequest)
             : base(initRequest)
         {
-            
+
         }
 
         public ActorPeer(IRpcProtocol protocol, IPhotonPeer unmanagedPeer)
@@ -32,18 +30,6 @@ namespace MMOServer.Peer
                 playerID = lastAssignedID;
                 lastAssignedID++;
             }
-
-            ////notify player of their ID
-            //EventData evt = new EventData()
-            //{
-            //    Code = (byte)AckEventType.AssignPlayerID,
-            //    Parameters = new Dictionary<byte, object>() 
-            //{ 
-            //    { (byte)EventParameter.PlayerID, this.playerID } 
-            //}
-            //};
-            //evt.Parameters[(byte)EventParameter.PlayerID] = playerID;
-            //this.SendEvent(evt, new SendParameters());
             #endregion
 
             #region Join to Arena
@@ -66,6 +52,6 @@ namespace MMOServer.Peer
         {
             ServerArena.Instance.OnOperationRequest(this, operationRequest, sendParameters);
         }
-                                       
+
     }
 }

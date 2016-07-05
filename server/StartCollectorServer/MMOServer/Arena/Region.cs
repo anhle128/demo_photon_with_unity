@@ -25,7 +25,7 @@ namespace MMOServer.Arena
                     listPlayer.Add(actor);
                 }
 
-                ActorPeer peer = ServerArena.Instance.listPeer.Where(a => a.playerID == actor.peerID).First();
+                ActorPeer peer = ServerArena.Instance.ListPeer.Where(a => a.playerID == actor.peerID).First();
 
                 SendNewInfoToPeer(peer, actor);
                 SendNewPeerToTheOthers(actor, GetListPlayerInterest());
@@ -112,7 +112,7 @@ namespace MMOServer.Arena
 
             foreach (var playerInRegion in listPlayerInRegion)
             {
-                ActorPeer actorPeer = ServerArena.Instance.listPeer.Where(a => a.playerID == playerInRegion.actorID).FirstOrDefault();
+                ActorPeer actorPeer = ServerArena.Instance.ListPeer.Where(a => a.playerID == playerInRegion.actorID).FirstOrDefault();
                 if (actorPeer != null)
                 {
                     EventData evtOtherPlayer = new EventData()
@@ -132,7 +132,7 @@ namespace MMOServer.Arena
         {
             foreach (var playerInRegion in listPlayerInRegion)
             {
-                ActorPeer actorPeer = ServerArena.Instance.listPeer.Where(a => a.playerID == playerInRegion.actorID).FirstOrDefault();
+                ActorPeer actorPeer = ServerArena.Instance.ListPeer.Where(a => a.playerID == playerInRegion.actorID).FirstOrDefault();
                 if (actorPeer != null)
                 {
                     EventData evtOtherPlayer = new EventData()
@@ -158,7 +158,7 @@ namespace MMOServer.Arena
                     int checkX = this.x + x;
                     int checkY = this.y + y;
 
-                    if (checkX >= 0 && checkX < ServerArena.numberRegionVerAndHor && checkY >= 0 && checkY < ServerArena.numberRegionVerAndHor)
+                    if (checkX >= 0 && checkX < ServerArena.NumberRegionVerAndHor && checkY >= 0 && checkY < ServerArena.NumberRegionVerAndHor)
                     {
                         listResult.Add(Region.arrRegion[checkX, checkY]);
                     }
@@ -179,8 +179,8 @@ namespace MMOServer.Arena
         {
             //int indexResult = (ServerArena.numberRegionVerAndHor / 2) + (int)(position / ServerArena.regionSize);
 
-            int indexResult = (int)((position + (ServerArena.numberRegionVerAndHor / 2)) / ServerArena.regionSize);
-            return indexResult;
+            float indexResult = (float)((position + (ServerArena.NumberRegionVerAndHor / 2)) / ServerArena.RegionSize);
+            return (int)Math.Round(indexResult);
         }
 
         private InterestRegions GetDataInterestRegion(List<Region> listInterestRegion) 
